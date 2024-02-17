@@ -15,7 +15,7 @@ app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
 
 def solve(input_path, output_path):
     main_preprocessing(input_path,100)
-    solve_maze_and_draw_path("processed.png",input_path)
+    solve_maze_and_draw_path("processed.png",output_path)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
