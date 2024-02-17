@@ -27,9 +27,12 @@ def bfs(grid, start, end):
     queue = [start]
     visited = set([start])
     parent = {start: None}
-
+    t = 0
+    traversed_nodes = set() 
     while queue:
+        t+=1
         current = queue.pop(0)
+        traversed_nodes.add(current) 
         if current == end:
             break
         for neighbor in find_neighbors(*current, grid):
@@ -43,7 +46,7 @@ def bfs(grid, start, end):
         path.append(end)
         end = parent[end]
     path.reverse()
-    return path
+    return path, t, len(traversed_nodes)
 
 def draw_path_on_image(image, path):
     for i in range(len(path) - 1):
@@ -55,13 +58,14 @@ def draw_path_on_image(image, path):
 def solve_maze_and_draw_path(image_path,output_path):
     grid, original_image = loadand_preprocess_image(image_path)
     start, end = find_edge_paths(grid)
-    path = bfs(grid, start, end)
+    path, dist,traversal = bfs(grid, start, end)
 
     if path:
         original_image_colored = cv2.cvtColor(original_image, cv2.COLOR_GRAY2BGR)
         path_image = draw_path_on_image(original_image_colored, path)
         cv2.imwrite(output_path, path_image)
         print(f"The image with the path has been saved as '{output_path}'.")
+        return traversal, dist
 
 
 
