@@ -17,7 +17,7 @@ app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
 
 def solve(input_path, output_folder):
     start = time.time()
-    main_preprocessing(input_path, 100)
+    main_preprocessing(input_path, 50)
     output_path = os.path.join(output_folder, 'final.png')
     trav, dist = solve_maze_and_draw_path("processed.png", output_path)
     end = time.time()
