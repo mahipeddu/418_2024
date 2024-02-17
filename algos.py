@@ -52,7 +52,7 @@ def draw_path_on_image(image, path):
         image = cv2.line(image, start_point, end_point, (0, 255, 0), 2)
     return image
 
-def solve_maze_and_draw_path(image_path):
+def solve_maze_and_draw_path(image_path,input_path):
     grid, original_image = loadand_preprocess_image(image_path)
     start, end = find_edge_paths(grid)
     path = bfs(grid, start, end)
@@ -60,10 +60,10 @@ def solve_maze_and_draw_path(image_path):
     if path:
         original_image_colored = cv2.cvtColor(original_image, cv2.COLOR_GRAY2BGR)
         path_image = draw_path_on_image(original_image_colored, path)
-        saved_path = 'maze_with_path.png'
+        saved_path = f'processed/{input_path}'
         cv2.imwrite(saved_path, path_image)
         print(f"The image with the path has been saved as '{saved_path}'.")
 
-image_path = r'C:\Users\peddu\OneDrive\Desktop\418_2024\processsed.png'
-print(solve_maze_and_draw_path(image_path))
+
+
 
