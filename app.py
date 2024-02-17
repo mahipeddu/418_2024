@@ -21,7 +21,7 @@ def solve(input_path, output_folder):
     output_path = os.path.join(output_folder, 'final.png')
     trav, dist = solve_maze_and_draw_path("processed.png", output_path)
     end = time.time()
-    return trav, end - start, dist
+    return trav, end - start, dist, output_path
 
 
 def allowed_file(filename):
@@ -48,10 +48,15 @@ def upload_file():
         input_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         output_folder = app.config['PROCESSED_FOLDER']
         file.save(input_path)
-        t1, t2,t3 = solve(input_path, output_folder)
-        return redirect(url_for('processed_file', filename='final.png', t1=t1, t2=t2,t3=t3))
+        t1, t2, t3, output_path = solve(input_path, output_folder)
+        return redirect(url_for('processed_file', filename='final.png', t1=t1, t2=t2, t3=t3, output_path=output_path))
     else:
         return "Invalid file format"
+
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    return send_file(os.path.join(app.config['PROCESSED_FOLDER'], filename), as_attachment=True)
 
 
 @app.route('/processed/<filename>')
@@ -59,7 +64,8 @@ def processed_file(filename):
     t1 = request.args.get('t1')
     t2 = request.args.get('t2')
     t3 = request.args.get('t3')
-    return render_template('processed.html', filename=filename, t1=t1, t2=t2,t3=t3)
+    output_path = request.args.get('output_path')
+    return render_template('processed.html', filename=filename, t1=t1, t2=t2, t3=t3, output_path=output_path)
 
 
 if __name__ == '__main__':

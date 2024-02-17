@@ -11,13 +11,15 @@
     <h1>Processed Image</h1>
 
     <h2>Final Image</h2>
-    <img src="{{ url_for('static', filename='processed/final.png') }}" alt="Processed Image">
+    <img src="{{ url_for('static', filename=filename) }}" alt="Processed Image">
 
     <h2>Time Taken for Processing</h2>
-    <p>Steps taken: {{ t1 }}</p>
-    <p>Total time: {{ t2 }}</p>
-    <p>Traversals: {{ t3 }}</p>
+    <p>t1: {{ t1 }}</p>
+    <p>t2: {{ t2 }}</p>
 
+    <a href="{{ url_for('download_file', filename=filename) }}" download>
+        <button>Download Final Image</button>
+    </a>
 </body>
 
 </html>
